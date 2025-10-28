@@ -130,6 +130,8 @@ message DishGetHistoryResponse {
   repeated DishOutage outages = 1009;
 
   repeated float power_in = 1010;
+
+  EventLog event_log = 1011;
 }
 
 message DishGetStatusResponse {
@@ -216,6 +218,12 @@ message DishGetStatusResponse {
   DishUpsuStats upsu_stats = 1043;
 
   DishApsStats aps_stats = 1048;
+
+  Quaternion ned2dish_quaternion = 1049;
+
+  map<string, RouterInfo> downstream_routers = 1050;
+
+  AccountShard account_shard = 1051;
 }
 
 message DishGetObstructionMapRequest {

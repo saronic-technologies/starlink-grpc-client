@@ -1002,9 +1002,11 @@ message DishGetDiagnosticsResponse {
 
   bool stowed = 10;
 
-  SpaceX.API.Telemetron.Public.Integrations.RateLimitReason dl_bandwidth_restricted_reason = 12;
+  bool overage_rate_limited = 14;
 
-  SpaceX.API.Telemetron.Public.Integrations.RateLimitReason ul_bandwidth_restricted_reason = 13;
+  reserved 12, 13;
+
+  reserved "dl_bandwidth_restricted_reason", "ul_bandwidth_restricted_reason";
 
   message Alerts {
     bool dish_is_heating = 1;
@@ -1023,9 +1025,11 @@ message DishGetDiagnosticsResponse {
 
     bool software_install_pending = 8;
 
-    bool moving_too_fast_for_policy = 9;
-
     bool obstructed = 10;
+
+    reserved 9;
+
+    reserved "moving_too_fast_for_policy";
   }
 
   message Location {
@@ -1132,6 +1136,8 @@ message DishGetDiagnosticsResponse {
     MOVING_TOO_FAST_FOR_POLICY = 14;
 
     UNDER_AVIATION_FLYOVER_LIMITS = 15;
+
+    BLOCKED_AREA = 16;
 
     reserved 5, 9;
 

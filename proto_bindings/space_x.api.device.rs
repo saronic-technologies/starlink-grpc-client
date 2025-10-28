@@ -399,6 +399,17 @@ pub struct EcefPosition {
     pub z: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct Quaternion {
+    #[prost(float, tag = "1")]
+    pub q_scalar: f32,
+    #[prost(float, tag = "2")]
+    pub q_x: f32,
+    #[prost(float, tag = "3")]
+    pub q_y: f32,
+    #[prost(float, tag = "4")]
+    pub q_z: f32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct InitiateRemoteSshRequest {}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InitiateRemoteSshResponse {
@@ -422,6 +433,324 @@ pub struct SoftwareUpdateRequest {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SoftwareUpdateResponse {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct RouterInfo {
+    #[prost(enumeration = "RouterRole", tag = "1")]
+    pub role: i32,
+    #[prost(int64, tag = "2")]
+    pub last_seen: i64,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct UxEvent {
+    #[prost(enumeration = "EventSeverity", tag = "1")]
+    pub severity: i32,
+    #[prost(enumeration = "EventReason", tag = "2")]
+    pub reason: i32,
+    #[prost(int64, tag = "3")]
+    pub start_timestamp_ns: i64,
+    #[prost(uint64, tag = "4")]
+    pub duration_ns: u64,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventLog {
+    #[prost(message, repeated, tag = "1")]
+    pub events: ::prost::alloc::vec::Vec<UxEvent>,
+    #[prost(int64, tag = "2")]
+    pub start_timestamp_ns: i64,
+    #[prost(int64, tag = "3")]
+    pub current_timestamp_ns: i64,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum RouterRole {
+    Unspecified = 0,
+    Controller = 1,
+    Repeater = 2,
+    Bypassed = 3,
+}
+impl RouterRole {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "UNSPECIFIED",
+            Self::Controller => "CONTROLLER",
+            Self::Repeater => "REPEATER",
+            Self::Bypassed => "BYPASSED",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "UNSPECIFIED" => Some(Self::Unspecified),
+            "CONTROLLER" => Some(Self::Controller),
+            "REPEATER" => Some(Self::Repeater),
+            "BYPASSED" => Some(Self::Bypassed),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum AccountShard {
+    Unknown = 0,
+    Default = 1,
+    India = 2,
+}
+impl AccountShard {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unknown => "ACCOUNT_SHARD_UNKNOWN",
+            Self::Default => "ACCOUNT_SHARD_DEFAULT",
+            Self::India => "ACCOUNT_SHARD_INDIA",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ACCOUNT_SHARD_UNKNOWN" => Some(Self::Unknown),
+            "ACCOUNT_SHARD_DEFAULT" => Some(Self::Default),
+            "ACCOUNT_SHARD_INDIA" => Some(Self::India),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EventSeverity {
+    Unknown = 0,
+    Warning = 1,
+    Caution = 2,
+    Advisory = 3,
+}
+impl EventSeverity {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unknown => "EVENT_SEVERITY_UNKNOWN",
+            Self::Warning => "EVENT_SEVERITY_WARNING",
+            Self::Caution => "EVENT_SEVERITY_CAUTION",
+            Self::Advisory => "EVENT_SEVERITY_ADVISORY",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "EVENT_SEVERITY_UNKNOWN" => Some(Self::Unknown),
+            "EVENT_SEVERITY_WARNING" => Some(Self::Warning),
+            "EVENT_SEVERITY_CAUTION" => Some(Self::Caution),
+            "EVENT_SEVERITY_ADVISORY" => Some(Self::Advisory),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EventReason {
+    Unknown = 0,
+    OutageUnknown = 1,
+    OutageBooting = 2,
+    OutageStowed = 3,
+    OutageThermalShutdown = 4,
+    OutageNoSchedule = 5,
+    OutageNoSats = 6,
+    OutageObstructed = 7,
+    OutageNoDownlink = 8,
+    OutageNoPings = 9,
+    OutageSleeping = 10,
+    OutageMovingWhileNotAllowed = 11,
+    HighDownlinkPacketLoss = 12,
+    RouterFactoryReset = 13,
+    RouterReboot = 14,
+    RouterPowerCycle = 15,
+    RouterConfigUpdate = 16,
+    RouterSoftwareUpdate = 17,
+    RouterThermalThrottled = 18,
+    OutageSkySearch = 19,
+    RouterRebootConfigUpdate = 20,
+    RouterPublicIpv4Change = 21,
+    UtAlertRainSnrPersistentlyLow = 22,
+    UtAlertEthNoLink = 23,
+    UtAlertEthSlowLink = 24,
+    UtAlertEthSlowLink100 = 25,
+    RouterPopIpv4PingDrop = 26,
+    RouterPopIpv6PingDrop = 27,
+    RouterLanEthHighPacketLoss = 28,
+    RouterWanEthHighPacketLoss = 29,
+    RouterDhcpServerFailToStart = 30,
+    RouterDhcpServerExhausted = 31,
+    RouterDnsIpv4ServerFailToStart = 32,
+    RouterDnsIpv6ServerFailToStart = 33,
+    RouterSetCustomDnsDisallowed = 34,
+    RouterSetCustomDnsAllowed = 35,
+    RouterMaxWirelessClients = 36,
+    RouterMax5ghighWirelessClients = 37,
+    RouterMeshTopologyChangingOften = 38,
+    RouterConntrackFull = 39,
+}
+impl EventReason {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unknown => "EVENT_REASON_UNKNOWN",
+            Self::OutageUnknown => "EVENT_REASON_OUTAGE_UNKNOWN",
+            Self::OutageBooting => "EVENT_REASON_OUTAGE_BOOTING",
+            Self::OutageStowed => "EVENT_REASON_OUTAGE_STOWED",
+            Self::OutageThermalShutdown => "EVENT_REASON_OUTAGE_THERMAL_SHUTDOWN",
+            Self::OutageNoSchedule => "EVENT_REASON_OUTAGE_NO_SCHEDULE",
+            Self::OutageNoSats => "EVENT_REASON_OUTAGE_NO_SATS",
+            Self::OutageObstructed => "EVENT_REASON_OUTAGE_OBSTRUCTED",
+            Self::OutageNoDownlink => "EVENT_REASON_OUTAGE_NO_DOWNLINK",
+            Self::OutageNoPings => "EVENT_REASON_OUTAGE_NO_PINGS",
+            Self::OutageSleeping => "EVENT_REASON_OUTAGE_SLEEPING",
+            Self::OutageMovingWhileNotAllowed => {
+                "EVENT_REASON_OUTAGE_MOVING_WHILE_NOT_ALLOWED"
+            }
+            Self::HighDownlinkPacketLoss => "EVENT_REASON_HIGH_DOWNLINK_PACKET_LOSS",
+            Self::RouterFactoryReset => "EVENT_REASON_ROUTER_FACTORY_RESET",
+            Self::RouterReboot => "EVENT_REASON_ROUTER_REBOOT",
+            Self::RouterPowerCycle => "EVENT_REASON_ROUTER_POWER_CYCLE",
+            Self::RouterConfigUpdate => "EVENT_REASON_ROUTER_CONFIG_UPDATE",
+            Self::RouterSoftwareUpdate => "EVENT_REASON_ROUTER_SOFTWARE_UPDATE",
+            Self::RouterThermalThrottled => "EVENT_REASON_ROUTER_THERMAL_THROTTLED",
+            Self::OutageSkySearch => "EVENT_REASON_OUTAGE_SKY_SEARCH",
+            Self::RouterRebootConfigUpdate => "EVENT_REASON_ROUTER_REBOOT_CONFIG_UPDATE",
+            Self::RouterPublicIpv4Change => "EVENT_REASON_ROUTER_PUBLIC_IPV4_CHANGE",
+            Self::UtAlertRainSnrPersistentlyLow => {
+                "EVENT_REASON_UT_ALERT_RAIN_SNR_PERSISTENTLY_LOW"
+            }
+            Self::UtAlertEthNoLink => "EVENT_REASON_UT_ALERT_ETH_NO_LINK",
+            Self::UtAlertEthSlowLink => "EVENT_REASON_UT_ALERT_ETH_SLOW_LINK",
+            Self::UtAlertEthSlowLink100 => "EVENT_REASON_UT_ALERT_ETH_SLOW_LINK_100",
+            Self::RouterPopIpv4PingDrop => "EVENT_REASON_ROUTER_POP_IPV4_PING_DROP",
+            Self::RouterPopIpv6PingDrop => "EVENT_REASON_ROUTER_POP_IPV6_PING_DROP",
+            Self::RouterLanEthHighPacketLoss => {
+                "EVENT_REASON_ROUTER_LAN_ETH_HIGH_PACKET_LOSS"
+            }
+            Self::RouterWanEthHighPacketLoss => {
+                "EVENT_REASON_ROUTER_WAN_ETH_HIGH_PACKET_LOSS"
+            }
+            Self::RouterDhcpServerFailToStart => {
+                "EVENT_REASON_ROUTER_DHCP_SERVER_FAIL_TO_START"
+            }
+            Self::RouterDhcpServerExhausted => {
+                "EVENT_REASON_ROUTER_DHCP_SERVER_EXHAUSTED"
+            }
+            Self::RouterDnsIpv4ServerFailToStart => {
+                "EVENT_REASON_ROUTER_DNS_IPV4_SERVER_FAIL_TO_START"
+            }
+            Self::RouterDnsIpv6ServerFailToStart => {
+                "EVENT_REASON_ROUTER_DNS_IPV6_SERVER_FAIL_TO_START"
+            }
+            Self::RouterSetCustomDnsDisallowed => {
+                "EVENT_REASON_ROUTER_SET_CUSTOM_DNS_DISALLOWED"
+            }
+            Self::RouterSetCustomDnsAllowed => {
+                "EVENT_REASON_ROUTER_SET_CUSTOM_DNS_ALLOWED"
+            }
+            Self::RouterMaxWirelessClients => "EVENT_REASON_ROUTER_MAX_WIRELESS_CLIENTS",
+            Self::RouterMax5ghighWirelessClients => {
+                "EVENT_REASON_ROUTER_MAX_5GHIGH_WIRELESS_CLIENTS"
+            }
+            Self::RouterMeshTopologyChangingOften => {
+                "EVENT_REASON_ROUTER_MESH_TOPOLOGY_CHANGING_OFTEN"
+            }
+            Self::RouterConntrackFull => "EVENT_REASON_ROUTER_CONNTRACK_FULL",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "EVENT_REASON_UNKNOWN" => Some(Self::Unknown),
+            "EVENT_REASON_OUTAGE_UNKNOWN" => Some(Self::OutageUnknown),
+            "EVENT_REASON_OUTAGE_BOOTING" => Some(Self::OutageBooting),
+            "EVENT_REASON_OUTAGE_STOWED" => Some(Self::OutageStowed),
+            "EVENT_REASON_OUTAGE_THERMAL_SHUTDOWN" => Some(Self::OutageThermalShutdown),
+            "EVENT_REASON_OUTAGE_NO_SCHEDULE" => Some(Self::OutageNoSchedule),
+            "EVENT_REASON_OUTAGE_NO_SATS" => Some(Self::OutageNoSats),
+            "EVENT_REASON_OUTAGE_OBSTRUCTED" => Some(Self::OutageObstructed),
+            "EVENT_REASON_OUTAGE_NO_DOWNLINK" => Some(Self::OutageNoDownlink),
+            "EVENT_REASON_OUTAGE_NO_PINGS" => Some(Self::OutageNoPings),
+            "EVENT_REASON_OUTAGE_SLEEPING" => Some(Self::OutageSleeping),
+            "EVENT_REASON_OUTAGE_MOVING_WHILE_NOT_ALLOWED" => {
+                Some(Self::OutageMovingWhileNotAllowed)
+            }
+            "EVENT_REASON_HIGH_DOWNLINK_PACKET_LOSS" => {
+                Some(Self::HighDownlinkPacketLoss)
+            }
+            "EVENT_REASON_ROUTER_FACTORY_RESET" => Some(Self::RouterFactoryReset),
+            "EVENT_REASON_ROUTER_REBOOT" => Some(Self::RouterReboot),
+            "EVENT_REASON_ROUTER_POWER_CYCLE" => Some(Self::RouterPowerCycle),
+            "EVENT_REASON_ROUTER_CONFIG_UPDATE" => Some(Self::RouterConfigUpdate),
+            "EVENT_REASON_ROUTER_SOFTWARE_UPDATE" => Some(Self::RouterSoftwareUpdate),
+            "EVENT_REASON_ROUTER_THERMAL_THROTTLED" => Some(Self::RouterThermalThrottled),
+            "EVENT_REASON_OUTAGE_SKY_SEARCH" => Some(Self::OutageSkySearch),
+            "EVENT_REASON_ROUTER_REBOOT_CONFIG_UPDATE" => {
+                Some(Self::RouterRebootConfigUpdate)
+            }
+            "EVENT_REASON_ROUTER_PUBLIC_IPV4_CHANGE" => {
+                Some(Self::RouterPublicIpv4Change)
+            }
+            "EVENT_REASON_UT_ALERT_RAIN_SNR_PERSISTENTLY_LOW" => {
+                Some(Self::UtAlertRainSnrPersistentlyLow)
+            }
+            "EVENT_REASON_UT_ALERT_ETH_NO_LINK" => Some(Self::UtAlertEthNoLink),
+            "EVENT_REASON_UT_ALERT_ETH_SLOW_LINK" => Some(Self::UtAlertEthSlowLink),
+            "EVENT_REASON_UT_ALERT_ETH_SLOW_LINK_100" => {
+                Some(Self::UtAlertEthSlowLink100)
+            }
+            "EVENT_REASON_ROUTER_POP_IPV4_PING_DROP" => Some(Self::RouterPopIpv4PingDrop),
+            "EVENT_REASON_ROUTER_POP_IPV6_PING_DROP" => Some(Self::RouterPopIpv6PingDrop),
+            "EVENT_REASON_ROUTER_LAN_ETH_HIGH_PACKET_LOSS" => {
+                Some(Self::RouterLanEthHighPacketLoss)
+            }
+            "EVENT_REASON_ROUTER_WAN_ETH_HIGH_PACKET_LOSS" => {
+                Some(Self::RouterWanEthHighPacketLoss)
+            }
+            "EVENT_REASON_ROUTER_DHCP_SERVER_FAIL_TO_START" => {
+                Some(Self::RouterDhcpServerFailToStart)
+            }
+            "EVENT_REASON_ROUTER_DHCP_SERVER_EXHAUSTED" => {
+                Some(Self::RouterDhcpServerExhausted)
+            }
+            "EVENT_REASON_ROUTER_DNS_IPV4_SERVER_FAIL_TO_START" => {
+                Some(Self::RouterDnsIpv4ServerFailToStart)
+            }
+            "EVENT_REASON_ROUTER_DNS_IPV6_SERVER_FAIL_TO_START" => {
+                Some(Self::RouterDnsIpv6ServerFailToStart)
+            }
+            "EVENT_REASON_ROUTER_SET_CUSTOM_DNS_DISALLOWED" => {
+                Some(Self::RouterSetCustomDnsDisallowed)
+            }
+            "EVENT_REASON_ROUTER_SET_CUSTOM_DNS_ALLOWED" => {
+                Some(Self::RouterSetCustomDnsAllowed)
+            }
+            "EVENT_REASON_ROUTER_MAX_WIRELESS_CLIENTS" => {
+                Some(Self::RouterMaxWirelessClients)
+            }
+            "EVENT_REASON_ROUTER_MAX_5GHIGH_WIRELESS_CLIENTS" => {
+                Some(Self::RouterMax5ghighWirelessClients)
+            }
+            "EVENT_REASON_ROUTER_MESH_TOPOLOGY_CHANGING_OFTEN" => {
+                Some(Self::RouterMeshTopologyChangingOften)
+            }
+            "EVENT_REASON_ROUTER_CONNTRACK_FULL" => Some(Self::RouterConntrackFull),
+            _ => None,
+        }
+    }
+}
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum BootReason {
@@ -830,6 +1159,8 @@ pub struct DishGetHistoryResponse {
     pub outages: ::prost::alloc::vec::Vec<DishOutage>,
     #[prost(float, repeated, tag = "1010")]
     pub power_in: ::prost::alloc::vec::Vec<f32>,
+    #[prost(message, optional, tag = "1011")]
+    pub event_log: ::core::option::Option<EventLog>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DishGetStatusResponse {
@@ -921,6 +1252,15 @@ pub struct DishGetStatusResponse {
     pub upsu_stats: ::core::option::Option<DishUpsuStats>,
     #[prost(message, optional, tag = "1048")]
     pub aps_stats: ::core::option::Option<DishApsStats>,
+    #[prost(message, optional, tag = "1049")]
+    pub ned2dish_quaternion: ::core::option::Option<Quaternion>,
+    #[prost(map = "string, message", tag = "1050")]
+    pub downstream_routers: ::std::collections::HashMap<
+        ::prost::alloc::string::String,
+        RouterInfo,
+    >,
+    #[prost(enumeration = "AccountShard", tag = "1051")]
+    pub account_shard: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct DishGetObstructionMapRequest {}
@@ -6793,16 +7133,8 @@ pub struct DishGetDiagnosticsResponse {
     >,
     #[prost(bool, tag = "10")]
     pub stowed: bool,
-    #[prost(
-        enumeration = "super::telemetron::public::integrations::RateLimitReason",
-        tag = "12"
-    )]
-    pub dl_bandwidth_restricted_reason: i32,
-    #[prost(
-        enumeration = "super::telemetron::public::integrations::RateLimitReason",
-        tag = "13"
-    )]
-    pub ul_bandwidth_restricted_reason: i32,
+    #[prost(bool, tag = "14")]
+    pub overage_rate_limited: bool,
 }
 /// Nested message and enum types in `DishGetDiagnosticsResponse`.
 pub mod dish_get_diagnostics_response {
@@ -6824,8 +7156,6 @@ pub mod dish_get_diagnostics_response {
         pub slow_ethernet_speeds: bool,
         #[prost(bool, tag = "8")]
         pub software_install_pending: bool,
-        #[prost(bool, tag = "9")]
-        pub moving_too_fast_for_policy: bool,
         #[prost(bool, tag = "10")]
         pub obstructed: bool,
     }
@@ -7013,6 +7343,7 @@ pub mod dish_get_diagnostics_response {
         UnsupportedVersion = 13,
         MovingTooFastForPolicy = 14,
         UnderAviationFlyoverLimits = 15,
+        BlockedArea = 16,
     }
     impl DisablementCode {
         /// String value of the enum field names used in the ProtoBuf definition.
@@ -7035,6 +7366,7 @@ pub mod dish_get_diagnostics_response {
                 Self::UnsupportedVersion => "UNSUPPORTED_VERSION",
                 Self::MovingTooFastForPolicy => "MOVING_TOO_FAST_FOR_POLICY",
                 Self::UnderAviationFlyoverLimits => "UNDER_AVIATION_FLYOVER_LIMITS",
+                Self::BlockedArea => "BLOCKED_AREA",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -7054,6 +7386,7 @@ pub mod dish_get_diagnostics_response {
                 "UNSUPPORTED_VERSION" => Some(Self::UnsupportedVersion),
                 "MOVING_TOO_FAST_FOR_POLICY" => Some(Self::MovingTooFastForPolicy),
                 "UNDER_AVIATION_FLYOVER_LIMITS" => Some(Self::UnderAviationFlyoverLimits),
+                "BLOCKED_AREA" => Some(Self::BlockedArea),
                 _ => None,
             }
         }
