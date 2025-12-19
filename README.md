@@ -107,6 +107,28 @@ cargo build --features build-protos
 - Regular consumers or users **do not need to run this**.
 - Default builds use the already checked-in generated code without `protoc`.
 
+### Using System Protoc (Nix, Bazel, etc.)
+
+By default, the `build-protos` feature uses a vendored `protoc` binary. If you're using Nix, Bazel, or another build system that prefers system dependencies, you can use your own `protoc`:
+
+**Option 1: Use system protoc without vendored binary**
+```bash
+# Ensure protoc is installed on your system
+# On NixOS, add protobuf to your buildInputs
+
+# Build with build-protos but without vendored protoc
+cargo build --features build-protos --no-default-features
+```
+
+**Option 2: Set PROTOC environment variable**
+```bash
+export PROTOC=/path/to/your/protoc
+cargo build --features build-protos
+```
+
+**For Nix users:**
+The vendored protoc is now optional, so crate2nix builds will work correctly. The `build-protos` feature automatically enables `vendored-protoc`, but you can disable it if needed.
+
 ---
 
 ## ✅ Semantic Versioning

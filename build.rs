@@ -4,11 +4,14 @@ use prost_wkt_build::*;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Only regenerate when the user explicitly enables the feature:
     if std::env::var("CARGO_FEATURE_BUILD_PROTOS").is_ok() {
-        // 1) Fetch the path to the vendored protoc binary
-        let protoc_path = protoc_bin_vendored::protoc_bin_path()
-            .map_err(|e| format!("could not find vendored protoc: {}", e))?;
-        // 2) Export it so prost-build/tonic-build pick it up
-        std::env::set_var("PROTOC", protoc_path);
+        // If vendored-protoc feature is enabled, use the vendored binary
+        #[cfg(feature = "vendored-protoc")]
+        {
+            let protoc_path = protoc_bin_vendored::protoc_bin_path()
+                .map_err(|e| format!("could not find vendored protoc: {}", e))?;
+            std::env::set_var("PROTOC", protoc_path);
+        }
+        // Otherwise, rely on system protoc or PROTOC environment variable
         println!("cargo:rerun-if-changed=build.rs");
         println!("cargo:rerun-if-changed=protos/starlink_protos");
         println!("cargo:rerun-if-changed=proto_bindings");
