@@ -14,7 +14,7 @@ pub struct UtPoPLinkReport {
     pub pop_version: ::prost::alloc::string::String,
 }
 #[derive(serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct UtPoPLinkStats {
     #[prost(message, optional, tag = "1")]
     pub measurement_timestamp: ::core::option::Option<super::common::TimestampInfo>,

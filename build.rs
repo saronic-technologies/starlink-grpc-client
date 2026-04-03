@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 use prost_wkt_build::*;
+use tonic_prost_build as tonic_build;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Only regenerate when the user explicitly enables the feature:
@@ -33,7 +34,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             // ask tonic to emit a single `mod.rs` in OUT_DIR
             .out_dir("proto_bindings")
             .include_file("mod.rs")
-            .compile_protos_with_config(
+            .compile_with_config(
                 prost_config,
                 // point at the one .proto that pulls in everything
                 &["protos/starlink_protos/spacex/api/device/device.proto"],
